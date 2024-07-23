@@ -45,7 +45,7 @@ class IndexController extends Controller
         $password = $request->password;
 
         if (Room::where('name', $room)->where('password', $password)->first()) {
-            return redirect('https://meet.jit.si/'.$room);
+            return redirect('https://tarteel.store/'.$room);
         } else {
             session()->flash('error', 'Invalid password');
             return redirect()->back();
