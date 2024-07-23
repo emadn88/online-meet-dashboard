@@ -2,6 +2,67 @@
 
 @section('content')
 
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
     <!-- Content wrapper -->
     <div class="content-wrapper">
         <!-- Content -->
@@ -65,14 +126,90 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div style="display: flex;align-items: center;justify-content: center">
+                                    <div class="p-4">
+                                        <!-- Enable/Disable Switch -->
+                                        <label class="switch">
+                                            <input type="checkbox" class="toggleSwitch" data-room-id="{{ $room->id }}" @if($room->status) checked @endif>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="p-4">
+                                        <!-- Fancy Delete Button -->
+                                        <button class="btn btn-danger deleteButton" data-room-id="{{ $room->id }}">Delete</button>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                     <script>
                         document.getElementById("copyButton{{$room->id}}").addEventListener("click", function() {
                             var copyText = document.getElementById("copyInput{{$room->id}}");
                             copyText.select();
                             document.execCommand("copy");
+                            // Get the switch
+                            var toggleSwitch = document.getElementById('toggleSwitch');
+
+// Add event listener for the switch
+                            toggleSwitch.addEventListener('change', function() {
+                                if (this.checked) {
+                                    console.log("Switch is in 'Enable' state");
+                                } else {
+                                    console.log("Switch is in 'Disable' state");
+                                }
+                            });
+                        });
+
+                        $('.deleteButton').click(function() {
+                            var roomId = $(this).data('room-id'); // Assuming you have the room ID stored in a data attribute
+
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: "You won't be able to revert this!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, delete it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        url: '/room/' + roomId + '/delete',
+                                        type: 'POST',
+                                        data: {
+                                            _token: '{{ csrf_token() }}'
+                                        },
+                                        success: function(response) {
+                                            window.location.href = document.referrer;
+
+                                        },
+                                        error: function(response) {
+                                            Swal.fire("Error!", "Something went wrong.", "error");
+                                        }
+                                    });
+                                }
+                            });
+                        });
+
+                        $('.toggleSwitch').change(function() {
+                            var roomId = $(this).data('room-id'); // Assuming you have the room ID stored in a data attribute
+                            $.ajax({
+                                url: '/room/' + roomId + '/toggle',
+                                type: 'POST',
+                                data: {
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function(response) {
+                                    Swal.fire("Success!", 'Room Status Changed Successfully', "success");
+
+                                },
+                                error: function(response) {
+                                    Swal.fire("Error!", "Something went wrong.", "error");
+                                }
+                            });
                         });
                     </script>
                 @endforeach

@@ -30,6 +30,7 @@ class IndexController extends Controller
             'name' => $room_name,
             'password' => $password,
             'mobile' => $data['mobile'],
+            'status' => 1,
         ]);
         session()->flash('success', 'Room created successfully');
         return redirect()->back();
@@ -37,7 +38,8 @@ class IndexController extends Controller
 
     public function enterRoom($room)
     {
-        return view('enter-room', compact('room'));
+        $room_object = Room::where('name', $room)->first();
+        return view('enter-room', compact('room','room_object'));
     }
 
     public function enterRoomPost(Request $request, $room)
@@ -49,6 +51,29 @@ class IndexController extends Controller
         } else {
             session()->flash('error', 'Invalid password');
             return redirect()->back();
+        }
+    }
+
+    public function delete($id)
+    {
+        $room = Room::find($id);
+        if($room) {
+            $room->delete();
+            return response()->json(['message' => 'Room deleted successfully','status'=>'success'], 200);
+        } else {
+            return response()->json(['message' => 'Room not found','status'=>'error'], 404);
+        }
+    }
+
+    public function toggleStatus($id)
+    {
+        $room = Room::find($id);
+        if($room) {
+            $room->status = !$room->status; // This toggles the status
+            $room->save();
+            return response()->json(['message' => 'Room status updated successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Room not found'], 404);
         }
     }
 }
