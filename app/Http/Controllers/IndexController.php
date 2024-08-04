@@ -76,4 +76,17 @@ class IndexController extends Controller
             return response()->json(['message' => 'Room not found'], 404);
         }
     }
+
+    public function checkRoom(Request $request)
+    {
+        $password = $request->password;
+        $room = $request->room;
+
+        if (Room::where('name', $room)->where('password', $password)->first()) {
+            return response()->json(['message' => 'Room found','status'=>'success'], 200);
+        } else {
+            return response()->json(['message' => 'Room not found','status'=>'error'], 404);
+        }
+
+    }
 }
