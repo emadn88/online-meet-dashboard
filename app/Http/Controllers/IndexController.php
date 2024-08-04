@@ -89,4 +89,9 @@ class IndexController extends Controller
         }
 
     }
+
+    public function test()
+    {
+        return response()->json(['message' => 'Test route working','status'=>'success'], 200);
+    }
 }

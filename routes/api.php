@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('check-room',[\App\Http\Controllers\IndexController::class,'checkRoom']);
+Route::get('test',[\App\Http\Controllers\IndexController::class,'test']);
