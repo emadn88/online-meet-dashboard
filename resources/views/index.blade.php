@@ -114,7 +114,7 @@
                                 <div>
                                     <div class="input-group">
                                         <div class="input-group-append">
-                                            <a class="btn btn-outline-success" href="{{url('https://wa.me/'.$room->mobile)}}" target="_blank" title="send whatsapp">
+                                            <a class="btn btn-outline-success" href="{{url('https://wa.me/'.$room->mobile.'?text=https://dash.almajd.link/enter-room/'.$room->name)}}" target="_blank" title="send whatsapp">
                                                 <img src="{{asset('whatsapp.png')}}" style="width: 20px">
                                             </a>
                                         </div>
