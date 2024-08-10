@@ -118,7 +118,7 @@
                                                 <img src="{{asset('whatsapp.png')}}" style="width: 20px">
                                             </a>
                                         </div>
-                                        <input type="text" value="{{'https://dashboard.tarteel.store/enter-room/'.$room->name}}" class="form-control" id="copyInput{{$room->id}}">
+                                        <input type="text" value="{{'https://dash.almajd.link/enter-room/'.$room->name}}" class="form-control" id="copyInput{{$room->id}}">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-success" type="button" id="copyButton{{$room->id}}" title="copy link">
                                                 <i class="fas fa-copy"></i>
