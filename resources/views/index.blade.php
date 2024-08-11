@@ -114,11 +114,11 @@
                                 <div>
                                     <div class="input-group">
                                         <div class="input-group-append">
-                                            <a class="btn btn-outline-success" href="{{url('https://wa.me/'.$room->mobile.'?text=https://e.almajd.link/join/'.$room->name)}}" target="_blank" title="send whatsapp">
+                                            <a class="btn btn-outline-success" href="{{url('https://wa.me/'.$room->mobile.'?text=https://almajd.link/join/'.$room->name)}}" target="_blank" title="send whatsapp">
                                                 <img src="{{asset('whatsapp.png')}}" style="width: 20px">
                                             </a>
                                         </div>
-                                        <input type="text" value="{{'https://e.almajd.link/join/'.$room->name}}" class="form-control" id="copyInput{{$room->id}}">
+                                        <input type="text" value="{{'https://almajd.link/join/'.$room->name}}" class="form-control" id="copyInput{{$room->id}}">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-success" type="button" id="copyButton{{$room->id}}" title="copy link">
                                                 <i class="fas fa-copy"></i>
