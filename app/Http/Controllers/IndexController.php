@@ -47,7 +47,7 @@ class IndexController extends Controller
         $password = $request->password;
 
         if (Room::where('name', $room)->where('password', $password)->first()) {
-            return redirect('https://almajd.link/'.$room);
+            return redirect('https://e.almajd.link/'.$room);
         } else {
             session()->flash('error', 'Invalid password');
             return redirect()->back();
